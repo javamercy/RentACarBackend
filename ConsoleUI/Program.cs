@@ -1,6 +1,7 @@
-﻿using Business.concretes;
-using DataAccess.concretes.inMemory;
-using Entities.concretes;
+﻿using Business.Concrete;
+using DataAccess.Concrete.EntityFramework;
+using DataAccess.Concrete.InMemory;
+using Entities.Concrete;
 using System;
 
 namespace ConsoleUI
@@ -9,17 +10,26 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            BrandManager brandManager = new BrandManager(new InMemoryBrandDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            brandManager.Add(new Brand { Id = 5, Name = "Porsche" });
+            ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            brandManager.Delete(new Brand { Id = 1 ,Name="BMW"});
+            CarManager carManager =  new CarManager(new EfCarDal());
 
-            brandManager.Update(new Brand { Id = 2, Name = "Updated" });
+            //brandManager.Add(new Brand { Name = "Porsche" });
+            //brandManager.Add(new Brand { Name = "BMW" });
+            //brandManager.Add(new Brand { Name = "Mercedes" });
 
-            foreach (var brand in brandManager.GetAll())
+            //colorManager.Add(new Color { Name = "blue" });
+            //colorManager.Add(new Color { Name = "black" });
+            //colorManager.Add(new Color { Name = "red" });
+
+            //carManager.Add(new Car { BrandId = 8, ColorId = 1, DailyPrice = 257.99, Description = "BMW i8", ModelYear = 2015 });
+
+
+            foreach (var car in carManager.GetAll())
             {
-                Console.WriteLine("{0} - {1}", brand.Id, brand.Name);
+                Console.WriteLine("{0} - {1} - {2} - {3}", car.Id, car.ModelYear, car.BrandId , car.Description);
             }
 
 

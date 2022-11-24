@@ -1,15 +1,15 @@
-﻿using Business.abstracts;
-using DataAccess.abstracts;
-using Entities.concretes;
+﻿using Business.Abstract;
+using DataAccess.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business.concretes
+namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        private IBrandDal _brandDal;
+        private readonly IBrandDal _brandDal;
 
         public BrandManager(IBrandDal brandDal)
         {
@@ -18,17 +18,12 @@ namespace Business.concretes
 
         public void Add(Brand brand)
         {
-            _brandDal.Add(brand);
-        }
-
-        public void Update(Brand brand)
-        {
-            _brandDal.Update(brand);
+           _brandDal.Add(brand);
         }
 
         public void Delete(Brand brand)
         {
-            _brandDal.Delete(brand);
+            _brandDal.Delete(brand);    
         }
 
         public List<Brand> GetAll()
@@ -36,6 +31,14 @@ namespace Business.concretes
             return _brandDal.GetAll();
         }
 
-        
+        public Brand GetById(int id)
+        {
+            return _brandDal.Get(b=> b.Id == id);
+        }
+
+        public void Update(Brand brand)
+        {
+            _brandDal.Update(brand);
+        }
     }
 }

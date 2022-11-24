@@ -1,11 +1,11 @@
-﻿using Entities.concretes;
+﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business.abstracts
+namespace Business.Abstract
 {
-   public interface IBrandService
+    public interface IBrandService
     {
         void Add(Brand brand);
 
@@ -14,6 +14,8 @@ namespace Business.abstracts
         void Update(Brand brand);
 
         List<Brand> GetAll();
+
+        Brand GetById(int id);
 
     }
 }
