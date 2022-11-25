@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,29 +17,33 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
-           _carDal.Add(car);
+            _carDal.Add(car);
+            return new SuccessResult("Car has been added!: "+car.Description);
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
-            _carDal.Delete(car);    
+            _carDal.Delete(car);
+            return new SuccessResult("Car has been deleted!: "+car.Description);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),"Cars have been listed!");
+
         }
 
-        public Car GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            return _carDal.Get(c=>c.Id == id);
+            return new SuccessDataResult<Car>(_carDal.Get(c=>c.Id== id));
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
-            _carDal.Update(car);    
+            _carDal.Update(car);
+            return new SuccessResult("Car has been updated!: " + car.Description);
         }
     }
 }
