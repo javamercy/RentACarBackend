@@ -27,11 +27,15 @@ namespace ConsoleUI
             //carManager.Add(new Car { BrandId = 8, ColorId = 1, DailyPrice = 257.99, Description = "BMW i8", ModelYear = 2015 });
 
 
-            var result = carManager.GetAll();
+            var result = carManager.GetAllCarsByDetails();
 
-            Console.WriteLine(result.Message);
-
-            
+            foreach (var carDetail in result.Data)
+            {
+                Console.WriteLine("CarId: " + carDetail.CarId);
+                Console.WriteLine("CarDescription: " + carDetail.CarDescription);
+                Console.WriteLine("BrandName: " + carDetail.BrandName);
+                Console.WriteLine("ColorName: " + carDetail.ColorName);
+            }
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿
-using Entities.Abstract;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Core.DataAccess
+namespace Core.DataAccess.EntityFramework
 {
-    public class EfEntityRepositoryBase<TEntity, TContext>: IEntityRepository<TEntity>
-        where TEntity: class, IEntity, new()
-        where TContext: DbContext, new()
+    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
+        where TEntity : class, IEntity, new()
+        where TContext : DbContext, new()
     {
         public void Add(TEntity entity)
         {
@@ -44,10 +43,9 @@ namespace Core.DataAccess
         {
             using (TContext context = new TContext())
             {
-
-                return filter != null ?
-                    context.Set<TEntity>().Where(filter).ToList() :
-                    context.Set<TEntity>().ToList();
+                return filter != null
+                    ? context.Set<TEntity>().Where(filter).ToList()
+                    : context.Set<TEntity>().ToList();
             }
         }
 

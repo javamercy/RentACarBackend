@@ -19,20 +19,22 @@ namespace Business.Concrete
 
         public IResult Add(Brand brand)
         {
-           _brandDal.Add(brand);
-            return new SuccessResult("Brand has been added!: "+brand.Name);
+            _brandDal.Add(brand);
+            return new SuccessResult("Brand has been added!: " + brand.Name);
         }
 
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            return new SuccessResult("Brand has been deleted!: "+ brand.Name);
+            return new SuccessResult("Brand has been deleted!: " + brand.Name);
         }
 
         public IDataResult<List<Brand>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), "Brands have been listed!");
-
+            return new SuccessDataResult<List<Brand>>(
+                _brandDal.GetAll(),
+                "Brands have been listed!"
+            );
         }
 
         public IDataResult<Brand> GetById(int id)
@@ -43,7 +45,7 @@ namespace Business.Concrete
         public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
-            return new SuccessResult("Brand has been updated!: "+ brand.Name);
+            return new SuccessResult("Brand has been updated!: " + brand.Name);
         }
     }
 }
