@@ -6,24 +6,18 @@ namespace Core.Utilities.Results
 {
     public class Result : IResult
     {
-        public string Message { get; set; }
-
-        public bool Success { get; set; }
-
         public Result(bool success)
         {
-
             Success = success;
         }
 
-
-        public Result(string message, bool success) :this(success){
-
+        public Result(string message, bool success) : this(success)
+        {
             Message = message;
-           
         }
 
-      
+        public string Message { get; }
 
+        public bool Success { get; }
     }
 }

@@ -4,16 +4,8 @@ using System.Text;
 
 namespace Core.Utilities.Results
 {
-    public interface IDataResult<T>
+    public interface IDataResult<T> : IResult
     {
-        public T Data { get; set; }
-
-        public string Message { get; set; }
-
-        public bool Success { get; set; }
-
-
-
-
+        public T Data { get; }
     }
 }

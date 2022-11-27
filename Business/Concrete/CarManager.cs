@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants.Messages;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,18 +22,18 @@ namespace Business.Concrete
         public IResult Add(Car car)
         {
             _carDal.Add(car);
-            return new SuccessResult("Car has been added!: " + car.Description);
+            return new SuccessResult(Messages.carAdded);
         }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
-            return new SuccessResult("Car has been deleted!: " + car.Description);
+            return new SuccessResult(Messages.carDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), "Cars have been listed!");
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.carsListed);
         }
 
         public IDataResult<List<Car>> GetAllByBrandId(int id)
@@ -45,9 +46,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
 
-        public IDataResult<List<CarDetailDto>> GetAllCarsByDetails()
+        public IDataResult<List<CarDetailDto>> GetAllByDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetAllCarsByDetails());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetAllByDetails());
         }
 
         public IDataResult<Car> GetById(int id)
@@ -58,7 +59,7 @@ namespace Business.Concrete
         public IResult Update(Car car)
         {
             _carDal.Update(car);
-            return new SuccessResult("Car has been updated!: " + car.Description);
+            return new SuccessResult(Messages.carUpdated);
         }
     }
 }

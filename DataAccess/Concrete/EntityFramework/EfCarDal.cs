@@ -9,7 +9,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, RentACarContext>, ICarDal
     {
-        public List<CarDetailDto> GetAllCarsByDetails()
+        public List<CarDetailDto> GetAllByDetails()
         {
             using (RentACarContext context = new RentACarContext())
             {

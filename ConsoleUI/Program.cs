@@ -27,7 +27,7 @@ namespace ConsoleUI
             //carManager.Add(new Car { BrandId = 8, ColorId = 1, DailyPrice = 257.99, Description = "BMW i8", ModelYear = 2015 });
 
 
-            var result = carManager.GetAllCarsByDetails();
+            var result = carManager.GetAllByDetails();
 
             foreach (var carDetail in result.Data)
             {

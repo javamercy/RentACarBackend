@@ -6,8 +6,6 @@ namespace Core.Utilities.Results
 {
     public class DataResult<T> : Result, IDataResult<T>
     {
-        public T Data { get; set; }
-
         public DataResult(T data, string message, bool success) : base(message, success)
         {
             Data = data;
@@ -18,8 +16,6 @@ namespace Core.Utilities.Results
             Data = data;
         }
 
-        public DataResult(string message, bool success) : base(message, success) { }
-
-        public DataResult(bool success) : base(success) { }
+        public T Data { get; }
     }
 }
