@@ -6,12 +6,12 @@ namespace Business.Constants.Messages
 {
     public static class Messages
     {
-        public static readonly string carAdded = "Car was added.";
+        public static readonly string CarAdded = "Car was added.";
 
-        public static readonly string carDeleted = "Car was deleted.";
+        public static readonly string CarDeleted = "Car was deleted.";
 
-        public static readonly string carsListed = "All Cars were listed.";
+        public static readonly string CarsListed = "All Cars were listed.";
 
-        public static readonly string carUpdated = "Car was updated.";
+        public static readonly string CarUpdated = "Car was updated.";
     }
 }
