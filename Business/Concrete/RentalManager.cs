@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,8 +23,10 @@ namespace Business.Concrete
         {
             if (!CheckIfCarDelievered(rental))
             {
-                throw new Exception("Car has already been rented!");
+                return new ErrorResult(Messages.CarAlreadyRented);
             }
+
+            rental.RentDate = rental.RentDate.ToLocalTime();
 
             _rentalDal.Add(rental);
             return new SuccessResult();
@@ -59,17 +62,22 @@ namespace Business.Concrete
 
         public IResult Update(Rental rental)
         {
+            rental.ReturnDate = rental.ReturnDate.ToLocalTime();
             _rentalDal.Update(rental);
+
             return new SuccessResult();
         }
 
+        // true, if the car delivered - false, if the car has not been delivered yet
         private bool CheckIfCarDelievered(Rental rental)
         {
             var rentsToCheck = _rentalDal.GetAll(r => r.CarId == rental.CarId);
 
             if (rentsToCheck.Count > 0)
             {
-                return !rentsToCheck.Any(r => r.ReturnDate.Equals("0001 - 01 - 01T00: 00:00"));
+                return !rentsToCheck.Any(
+                    r => r.ReturnDate.ToLocalTime().Equals(SqlServerConstants.DateNull)
+                );
             }
 
             return true;

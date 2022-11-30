@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Business.Constants.Messages
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -13,5 +13,7 @@ namespace Business.Constants.Messages
         public static readonly string CarsListed = "All Cars were listed.";
 
         public static readonly string CarUpdated = "Car was updated.";
+
+        public static readonly string CarAlreadyRented = "Car was already rented.";
     }
 }

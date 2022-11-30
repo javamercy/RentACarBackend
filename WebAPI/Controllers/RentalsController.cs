@@ -72,8 +72,6 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add(Rental rental)
         {
-            rental.RentDate = DateTime.Now;
-
             var result = _rentalService.Add(rental);
 
             if (result.Success)
@@ -108,29 +106,6 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(result);
-        }
-
-        [HttpPost("deliver")]
-        public IActionResult Deliver(int rentalId)
-        {
-            var rentalResult = _rentalService.GetById(rentalId);
-
-            if (rentalResult.Success)
-            {
-                var rentalToDeliver = rentalResult.Data;
-                rentalToDeliver.ReturnDate = DateTime.Now;
-
-                var finalResult = _rentalService.Update(rentalToDeliver);
-
-                if (finalResult.Success)
-                {
-                    return Ok(finalResult);
-                }
-
-                return BadRequest(finalResult);
-            }
-
-            return BadRequest(rentalResult);
         }
     }
 }
