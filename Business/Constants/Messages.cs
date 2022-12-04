@@ -15,5 +15,6 @@ namespace Business.Constants
         public static readonly string CarUpdated = "Car was updated.";
 
         public static readonly string CarAlreadyRented = "Car was already rented.";
+        public static readonly string CarDescriptionInvalid;
     }
 }
