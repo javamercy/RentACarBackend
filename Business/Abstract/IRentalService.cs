@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,7 @@ namespace Business.Abstract
         IDataResult<List<Rental>> GetAllByCustomerId(int customerId);
 
         IDataResult<List<Rental>> GetAllByCarId(int carId);
+
+        IDataResult<List<RentalDetailDto>> GetAllByDetails();
     }
 }

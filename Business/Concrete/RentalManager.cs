@@ -1,8 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.Constants.Messages;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +23,12 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
             if (!CheckIfCarDelievered(rental))
             {
-                return new ErrorResult(Messages.CarAlreadyRented);
+                return new ErrorResult(BusinessMessages.CarAlreadyRented);
             }
 
             rental.RentDate = rental.RentDate.ToLocalTime();
@@ -35,12 +40,15 @@ namespace Business.Concrete
         public IResult Delete(Rental rental)
         {
             _rentalDal.Delete(rental);
-            return new SuccessResult();
+            return new SuccessResult(BusinessMessages.RentalDeleted);
         }
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
+            return new SuccessDataResult<List<Rental>>(
+                _rentalDal.GetAll(),
+                BusinessMessages.AllRentalsListed
+            );
         }
 
         public IDataResult<List<Rental>> GetAllByCarId(int carId)
@@ -53,6 +61,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(
                 _rentalDal.GetAll(r => r.CustomerId == customerId)
             );
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetAllByDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetAllByDetails());
         }
 
         public IDataResult<Rental> GetById(int id)
@@ -68,7 +81,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        // true, if the car delivered - false, if the car has not been delivered yet
+        // true, if the car was delivered - false, if the car has not been delivered yet
         private bool CheckIfCarDelievered(Rental rental)
         {
             var rentsToCheck = _rentalDal.GetAll(r => r.CarId == rental.CarId);
