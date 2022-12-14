@@ -24,7 +24,8 @@ namespace Business.Constants.Messages
             "Car count limit exceeded for this brand.";
 
         public static readonly string CarDescriptionAlreadyExists = "Car name already exists.";
+
         public static readonly string BrandLimitExceeded =
-            "Brand count limit is exceeded.Thus, car cannot be added.";
+            "Brand count limit is exceeded. Thus, car cannot be added.";
     }
 }

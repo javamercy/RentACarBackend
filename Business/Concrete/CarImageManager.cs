@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -7,6 +8,7 @@ using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -24,6 +26,12 @@ namespace Business.Concrete
 
         public IResult Add(IFormFile file, CarImage carImage)
         {
+            var result = BusinessRules.Run(CheckIfImageCountExceeded(carImage.CarId));
+
+            if (result != null)
+            {
+                return result;
+            }
             carImage.ImagePath = _fileHelper.Upload(file, CarImagesPathConstants.PathRoot);
 
             _carImageDal.Add(carImage);
@@ -33,7 +41,7 @@ namespace Business.Concrete
 
         public IResult Delete(CarImage carImage)
         {
-            var imagePath = this.GetById(carImage.Id).Data.ImagePath;
+            var imagePath = _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
 
             _fileHelper.Delete(imagePath);
 
@@ -61,11 +69,23 @@ namespace Business.Concrete
 
         public IResult Update(IFormFile file, CarImage carImage)
         {
-            var imagePath = this.GetById(carImage.Id).Data.ImagePath;
+            var imagePath = _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
 
             _fileHelper.Update(file, imagePath, CarImagesPathConstants.PathRoot);
 
             _carImageDal.Update(carImage);
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfImageCountExceeded(int carId)
+        {
+            var images = _carImageDal.GetAll(i => i.CarId == carId);
+
+            if (images.Count >= 5)
+            {
+                return new ErrorResult();
+            }
 
             return new SuccessResult();
         }

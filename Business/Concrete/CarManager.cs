@@ -82,7 +82,7 @@ namespace Business.Concrete
 
         private IResult CheckIfCarCountOfBrandExceeded(int brandId)
         {
-            var cars = GetAllByBrandId(brandId).Data;
+            var cars = _carDal.GetAll(c => c.BrandId == brandId);
 
             if (cars.Count >= 5)
             {
@@ -94,7 +94,7 @@ namespace Business.Concrete
 
         private IResult CheckIfCarDescriptionAlreadyExists(string carDescription)
         {
-            var cars = GetAll().Data;
+            var cars = _carDal.GetAll();
             var result = cars.Any(c => c.Description == carDescription);
 
             if (result)
@@ -107,9 +107,9 @@ namespace Business.Concrete
 
         private IResult CheckIfBrandLimitExceeded()
         {
-            var brandCount = _brandService.GetAll().Data.Count;
+            var brands = _brandService.GetAll().Data;
 
-            if (brandCount >= 15)
+            if (brands.Count >= 15)
             {
                 return new ErrorResult(BusinessMessages.BrandLimitExceeded);
             }
