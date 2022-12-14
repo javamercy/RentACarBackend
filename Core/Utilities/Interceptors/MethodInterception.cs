@@ -9,7 +9,7 @@ namespace Core.Utilities.Interceptors
 
         protected virtual void OnAfter(IInvocation invocation) { }
 
-        protected virtual void OnException(IInvocation invocation, Exception e) { }
+        protected virtual void OnException(IInvocation invocation, Exception exception) { }
 
         protected virtual void OnSuccess(IInvocation invocation) { }
 
@@ -21,10 +21,10 @@ namespace Core.Utilities.Interceptors
             {
                 invocation.Proceed();
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
                 isSuccess = false;
-                OnException(invocation, e);
+                OnException(invocation, exception);
                 throw;
             }
             finally

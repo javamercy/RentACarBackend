@@ -16,8 +16,15 @@ namespace Business.Constants.Messages
 
         public static readonly string CarAlreadyRented = "Car was already rented.";
 
-        internal static readonly string RentalDeleted = "Rental was deleted.";
+        public static readonly string RentalDeleted = "Rental was deleted.";
 
-        internal static readonly string AllRentalsListed = "All rentals were listed.";
+        public static readonly string AllRentalsListed = "All rentals were listed.";
+
+        public static readonly string CarCountOfBrandError =
+            "Car count limit exceeded for this brand.";
+
+        public static readonly string CarDescriptionAlreadyExists = "Car name already exists.";
+        public static readonly string BrandLimitExceeded =
+            "Brand count limit is exceeded.Thus, car cannot be added.";
     }
 }
