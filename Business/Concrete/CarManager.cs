@@ -2,7 +2,6 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
@@ -12,10 +11,9 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -99,7 +97,6 @@ namespace Business.Concrete
         {
             Add(car);
             Update(car);
-            Delete(car);
 
             return new SuccessResult();
         }
