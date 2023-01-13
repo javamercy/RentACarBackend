@@ -24,15 +24,6 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(car => car.BrandId).NotEmpty();
 
             RuleFor(car => car.ColorId).NotEmpty();
-
-            RuleFor(car => car.Description)
-                .Must(StartsWithA)
-                .WithMessage("Car description has to start with 'A'.");
-        }
-
-        private bool StartsWithA(string arg)
-        {
-            return arg.StartsWith("A");
         }
     }
 }

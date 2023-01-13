@@ -27,7 +27,13 @@ namespace Business.Constants.Messages
 
         public static readonly string BrandLimitExceeded =
             "Brand count limit is exceeded. Thus, car cannot be added.";
+
         public static readonly string UserRegistered = "User has been registered.";
+
         public static readonly string UserAlreadyExists = "User already exists.";
+
+        public static readonly string CarWasNotRented = "Car has not been rented yet.";
+
+        public static readonly string CarAlreadyDelivered = "car has already been delivered.";
     }
 }

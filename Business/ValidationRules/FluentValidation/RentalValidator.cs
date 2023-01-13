@@ -12,9 +12,6 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(rental => rental.CarId).NotEmpty();
 
-            RuleFor(rental => rental.RentDate).NotEmpty();
-            RuleFor(rental => rental.RentDate).LessThanOrEqualTo(DateTime.Now);
-
             RuleFor(rental => rental.CustomerId).NotEmpty();
         }
     }

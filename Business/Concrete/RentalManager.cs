@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -26,12 +27,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            if (!CheckIfCarDelievered(rental))
+            var result = BusinessRules.Run(CheckIfCarDelievered(rental.CarId));
+
+            if (result != null)
             {
-                return new ErrorResult(BusinessMessages.CarAlreadyRented);
+                return result;
             }
 
-            rental.RentDate = rental.RentDate.ToLocalTime();
+            rental.RentDate = DateTime.Now;
 
             _rentalDal.Add(rental);
             return new SuccessResult();
@@ -41,6 +44,22 @@ namespace Business.Concrete
         {
             _rentalDal.Delete(rental);
             return new SuccessResult(BusinessMessages.RentalDeleted);
+        }
+
+        public IResult Deliver(Rental rental)
+        {
+            var result = BusinessRules.Run(CheckIfCarCanBeDelievered(rental.CarId));
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            rental.ReturnDate = DateTime.Now;
+
+            this.Update(rental);
+
+            return new SuccessResult();
         }
 
         public IDataResult<List<Rental>> GetAll()
@@ -75,25 +94,43 @@ namespace Business.Concrete
 
         public IResult Update(Rental rental)
         {
-            rental.ReturnDate = rental.ReturnDate.ToLocalTime();
             _rentalDal.Update(rental);
 
             return new SuccessResult();
         }
 
         // true, if the car was delivered - false, if the car has not been delivered yet
-        private bool CheckIfCarDelievered(Rental rental)
+        private IResult CheckIfCarDelievered(int carId)
         {
-            var rentsToCheck = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+            var carsToCheck = _rentalDal.GetAll(r => r.CarId == carId);
 
-            if (rentsToCheck.Count > 0)
+            if (carsToCheck.Count > 0)
             {
-                return !rentsToCheck.Any(
-                    r => r.ReturnDate.ToLocalTime().Equals(SqlServerConstants.DateNull)
+                var result = carsToCheck.Any(c => c.ReturnDate.Equals(SqlServerConstants.DateNull));
+
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfCarCanBeDelievered(int carId)
+        {
+            var carsToCheck = _rentalDal.GetAll(r => r.CarId == carId);
+
+            if (carsToCheck.Count > 0)
+            {
+                var result = carsToCheck.Any(
+                    c => DateTime.Compare(c.ReturnDate, SqlServerConstants.DateNull) == 0
                 );
+
+                if (result)
+                {
+                    return new SuccessResult();
+                }
+                return new ErrorResult(BusinessMessages.CarAlreadyDelivered);
             }
 
-            return true;
+            return new ErrorResult(BusinessMessages.CarWasNotRented);
         }
     }
 }
