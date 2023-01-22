@@ -28,9 +28,9 @@ namespace Business.Concrete
             _brandService = brandService;
         }
 
-        [SecuredOperation("admin,car.add")]
-        [ValidationAspect(typeof(CarValidator))]
-        [CacheRemoveAspect("ICarService.Get")]
+        // [SecuredOperation("admin,car.add")]
+        //[ValidationAspect(typeof(CarValidator))]
+        // [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             IResult result = BusinessRules.Run(
@@ -48,27 +48,27 @@ namespace Business.Concrete
             return new SuccessResult(BusinessMessages.CarAdded);
         }
 
-        [ValidationAspect(typeof(CarValidator))]
-        [CacheRemoveAspect("ICarService.Get")]
+        //[ValidationAspect(typeof(CarValidator))]
+        //[CacheRemoveAspect("ICarService.Get")]
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(BusinessMessages.CarDeleted);
         }
 
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), BusinessMessages.CarsListed);
         }
 
-        [CacheAspect]
+        // [CacheAspect]
         public IDataResult<List<Car>> GetAllByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
         }
 
-        [CacheAspect]
+        // [CacheAspect]
         public IDataResult<List<Car>> GetAllByColorId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
@@ -77,6 +77,37 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> GetAllByDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetAllByDetails());
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllByDetailsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(
+                _carDal.GetAllByDetails(car => car.BrandId == brandId)
+            );
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllByDetailsByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(
+                _carDal.GetAllByDetails(car => car.ColorId == colorId)
+            );
+        }
+
+        public IDataResult<List<CarDetailDto>> GetAllByDetailsByBrandIdAndColorId(
+            int brandId,
+            int colorId
+        )
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(
+                _carDal.GetAllByDetails(car => car.BrandId == brandId && car.ColorId == colorId)
+            );
+        }
+
+        public IDataResult<CarDetailDto> GetCarDetailsByCarId(int carId)
+        {
+            return new SuccessDataResult<CarDetailDto>(
+                _carDal.GetAllByDetails().Find(c => c.CarId == carId)
+            );
         }
 
         [CacheAspect]

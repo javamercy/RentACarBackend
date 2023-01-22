@@ -22,5 +22,7 @@ namespace Entities.DTOs
         public string ColorName { get; set; }
 
         public string BrandName { get; set; }
+
+        public List<string> ImagePaths { get; set; }
     }
 }

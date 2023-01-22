@@ -2,14 +2,18 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, RentACarContext>, ICarDal
     {
-        public List<CarDetailDto> GetAllByDetails()
+        public List<CarDetailDto> GetAllByDetails(
+            Expression<Func<CarDetailDto, bool>> filter = null
+        )
         {
             using (RentACarContext context = new RentACarContext())
             {
@@ -27,9 +31,14 @@ namespace DataAccess.Concrete.EntityFramework
                         ModelYear = car.ModelYear,
                         CarDescription = car.Description,
                         DailyPrice = car.DailyPrice,
+                        ImagePaths = new List<string>(
+                            from carImage in context.CarImages
+                            where carImage.CarId == car.Id
+                            select carImage.ImagePath
+                        ).ToList()
                     };
 
-                return result.ToList();
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
         }
     }

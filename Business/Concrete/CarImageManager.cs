@@ -32,7 +32,9 @@ namespace Business.Concrete
             {
                 return result;
             }
-            carImage.ImagePath = _fileHelper.Upload(file, CarImagesPathConstants.PathRoot);
+            carImage.ImagePath = _fileHelper
+                .Upload(file, CarImagesPathConstants.RootPath + CarImagesPathConstants.FilePath)
+                .Replace("wwwroot/", "");
 
             _carImageDal.Add(carImage);
 
@@ -43,7 +45,7 @@ namespace Business.Concrete
         {
             var imagePath = _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
 
-            _fileHelper.Delete(imagePath);
+            _fileHelper.Delete(CarImagesPathConstants.RootPath + imagePath);
 
             _carImageDal.Delete(carImage);
 
@@ -71,7 +73,11 @@ namespace Business.Concrete
         {
             var imagePath = _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
 
-            _fileHelper.Update(file, imagePath, CarImagesPathConstants.PathRoot);
+            _fileHelper.Update(
+                file,
+                imagePath,
+                CarImagesPathConstants.RootPath + CarImagesPathConstants.FilePath
+            );
 
             _carImageDal.Update(carImage);
 
