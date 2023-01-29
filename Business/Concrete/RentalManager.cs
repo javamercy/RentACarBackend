@@ -34,8 +34,6 @@ namespace Business.Concrete
                 return result;
             }
 
-            rental.RentDate = DateTime.Now;
-
             _rentalDal.Add(rental);
             return new SuccessResult();
         }
@@ -104,12 +102,15 @@ namespace Business.Concrete
         {
             var carsToCheck = _rentalDal.GetAll(r => r.CarId == carId);
 
-            if (carsToCheck.Count > 0)
-            {
-                var result = carsToCheck.Any(c => c.ReturnDate.Equals(SqlServerConstants.DateNull));
+            var result = carsToCheck.Any(
+                c => c.ReturnDate.ToLocalTime().CompareTo(DateTime.Now) > 0
+            );
 
-                return new ErrorResult();
+            if (carsToCheck.Count > 0 && result)
+            {
+                return new ErrorResult(BusinessMessages.CarNotDelivered);
             }
+
             return new SuccessResult();
         }
 
@@ -120,14 +121,17 @@ namespace Business.Concrete
             if (carsToCheck.Count > 0)
             {
                 var result = carsToCheck.Any(
-                    c => DateTime.Compare(c.ReturnDate, SqlServerConstants.DateNull) == 0
+                    c => DateTime.Compare(c.ReturnDate.ToLocalTime(), DateTime.Now) < 0
                 );
 
                 if (result)
                 {
-                    return new SuccessResult();
+                    return new ErrorResult(BusinessMessages.CarAlreadyDelivered);
                 }
-                return new ErrorResult(BusinessMessages.CarAlreadyDelivered);
+                else
+                {
+                    return new SuccessResult(BusinessMessages.CarDeliveredSuccessfully);
+                }
             }
 
             return new ErrorResult(BusinessMessages.CarWasNotRented);

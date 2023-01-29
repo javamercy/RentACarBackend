@@ -35,5 +35,10 @@ namespace Business.Constants.Messages
         public static readonly string CarWasNotRented = "Car has not been rented yet.";
 
         public static readonly string CarAlreadyDelivered = "car has already been delivered.";
+
+        public static readonly string CarNotDelivered = "Car has not been delivered yet.";
+
+        public static readonly string CarDeliveredSuccessfully =
+            "Car has been delivered successfully.";
     }
 }
