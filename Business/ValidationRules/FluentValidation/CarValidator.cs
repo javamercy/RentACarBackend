@@ -19,7 +19,7 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(car => car.DailyPrice).NotEmpty();
             RuleFor(car => car.DailyPrice).GreaterThan(0);
-            RuleFor(car => car.DailyPrice).GreaterThan(10).When(car => car.BrandId == 1);
+            RuleFor(car => car.DailyPrice).GreaterThan(100).When(car => car.BrandId == 1);
 
             RuleFor(car => car.BrandId).NotEmpty();
 
