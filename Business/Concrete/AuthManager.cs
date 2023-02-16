@@ -46,7 +46,7 @@ namespace Business.Concrete
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userForLoginDto.Email).Data;
+            var userToCheck = _userService.GetByEmail(userForLoginDto.Email).Data;
             if (userToCheck == null)
             {
                 return new ErrorDataResult<User>();
@@ -68,7 +68,7 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            var result = _userService.GetByMail(email).Data;
+            var result = _userService.GetByEmail(email).Data;
 
             if (result != null)
             {
