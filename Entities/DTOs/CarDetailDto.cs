@@ -13,15 +13,15 @@ namespace Entities.DTOs
 
         public int BrandId { get; set; }
 
-        public double DailyPrice { get; set; }
-
-        public int ModelYear { get; set; }
-
-        public string CarDescription { get; set; }
-
         public string ColorName { get; set; }
 
         public string BrandName { get; set; }
+
+        public string CarDescription { get; set; }
+
+        public double DailyPrice { get; set; }
+
+        public int ModelYear { get; set; }
 
         public List<string> ImagePaths { get; set; }
     }

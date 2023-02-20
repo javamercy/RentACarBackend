@@ -21,11 +21,11 @@ namespace DataAccess.Concrete.EntityFramework
                     from car in context.Cars
                     join color in context.Colors on car.ColorId equals color.Id
                     join brand in context.Brands on car.BrandId equals brand.Id
+
                     select new CarDetailDto
                     {
                         CarId = car.Id,
                         BrandId = brand.Id,
-                        ColorId = color.Id,
                         BrandName = brand.Name,
                         ColorName = color.Name,
                         ModelYear = car.ModelYear,
