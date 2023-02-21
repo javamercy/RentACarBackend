@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.DTOs;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -55,6 +56,21 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(result);
+        }
+
+        [HttpPost("changepassword")]
+        public ActionResult ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+
+            var result = _authService.ChangePassword(changePasswordModel);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+
         }
     }
 }

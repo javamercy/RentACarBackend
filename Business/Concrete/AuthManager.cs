@@ -5,6 +5,7 @@ using Core.Utilities.Results;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using Entities.DTOs;
+using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -83,6 +84,37 @@ namespace Business.Concrete
             var accessToken = _tokenHelper.CreateToken(user, claims);
 
             return new SuccessDataResult<AccessToken>(accessToken);
+        }
+
+        public IResult ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            var user = _userService.GetByEmail(changePasswordModel.Email).Data;
+
+            if (user == null)
+            {
+                return new ErrorResult(BusinessMessages.UserNotExist);
+            }
+
+
+
+            var result = HashingHelper.VerifyPasswordHash(changePasswordModel.OldPassword, user.PasswordHash, user.PasswordSalt);
+
+            if (!result)
+            {
+                return new ErrorResult(BusinessMessages.PasswordError);
+            }
+
+            byte[] passwordHash;
+            byte[] passwordSalt;
+
+            HashingHelper.CreatePasswordHash(changePasswordModel.NewPassword, out passwordHash, out passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            _userService.Update(user);
+            return new SuccessResult(BusinessMessages.PasswordUpdated);
+
         }
     }
 }

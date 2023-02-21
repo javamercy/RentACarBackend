@@ -40,5 +40,11 @@ namespace Business.Constants.Messages
 
         public static readonly string CarDeliveredSuccessfully =
             "Car has been delivered successfully.";
+
+        public static readonly string PasswordUpdated = "Password was updated.";
+
+        public static readonly string UserNotExist = "Any user with such email could not be found.";
+
+        public static readonly string PasswordError = "Password is not correct.";
     }
 }
