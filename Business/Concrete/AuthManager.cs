@@ -92,10 +92,8 @@ namespace Business.Concrete
 
             if (user == null)
             {
-                return new ErrorResult(BusinessMessages.UserNotExist);
+                return new ErrorResult(BusinessMessages.EmailNotFound);
             }
-
-
 
             var result = HashingHelper.VerifyPasswordHash(changePasswordModel.OldPassword, user.PasswordHash, user.PasswordSalt);
 

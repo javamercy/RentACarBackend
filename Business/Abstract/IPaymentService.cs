@@ -1,13 +1,13 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Entities.Models;
 
 namespace Business.Abstract
 {
     public interface IPaymentService
     {
+        IResult Pay(CreditCard creditCard, int amount);
+
         IResult Add(Payment payment);
     }
 }
