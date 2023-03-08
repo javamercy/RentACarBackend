@@ -11,6 +11,12 @@ namespace Business.ValidationRules.FluentValidation
     {
         public PaymentValidator()
         {
+            RuleFor(payment => payment.Amount).NotEmpty();
+            RuleFor(payment => payment.Amount).GreaterThan(0);
+
+            RuleFor(payment => payment.Date).NotEmpty();
+
+            RuleFor(payment => payment.CustomerId).NotEmpty();
 
         }
     }

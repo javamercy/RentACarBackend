@@ -5,11 +5,6 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Models;
-using FluentValidation.Validators;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -25,7 +20,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(PaymentValidator))]
         public IResult Add(Payment payment)
         {
-            this._paymentDal.Add(payment);
+            _paymentDal.Add(payment);
             return new SuccessResult();
         }
 

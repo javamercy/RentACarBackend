@@ -46,5 +46,7 @@ namespace Business.Constants.Messages
         public static readonly string EmailNotFound = "Any user with such email could not be found.";
 
         public static readonly string PasswordError = "Password is not correct.";
+
+        public static readonly string CustomerAlreadyExists = "Customer already exists.";
     }
 }
