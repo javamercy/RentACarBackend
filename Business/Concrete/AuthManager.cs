@@ -50,7 +50,7 @@ namespace Business.Concrete
             var userToCheck = _userService.GetByEmail(userForLoginDto.Email).Data;
             if (userToCheck == null)
             {
-                return new ErrorDataResult<User>();
+                return new ErrorDataResult<User>(BusinessMessages.EmailNotFound);
             }
 
             if (
@@ -61,7 +61,7 @@ namespace Business.Concrete
                 )
             )
             {
-                return new ErrorDataResult<User>();
+                return new ErrorDataResult<User>(BusinessMessages.PasswordError);
             }
 
             return new SuccessDataResult<User>(userToCheck);
@@ -99,7 +99,7 @@ namespace Business.Concrete
 
             if (!result)
             {
-                return new ErrorResult(BusinessMessages.PasswordError);
+                return new ErrorResult(BusinessMessages.OldPasswordError);
             }
 
             byte[] passwordHash;
