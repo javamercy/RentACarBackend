@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -47,6 +48,10 @@ namespace Business.Constants.Messages
 
         public static readonly string PasswordError = "Password is not correct.";
 
+        public static readonly string OldPasswordError = "Old Password is not correct.";
+
         public static readonly string CustomerAlreadyExists = "Customer already exists.";
+
+        public static readonly string ProfileUpdated = "Profile updated.";
     }
 }

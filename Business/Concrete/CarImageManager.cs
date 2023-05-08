@@ -41,6 +41,16 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IResult AddMultiple(IFormFile[] files, CarImage carImage)
+        {
+            foreach (var file in files)
+            {
+                Add(file, carImage);
+            }
+
+            return new SuccessResult();
+        }
+
         public IResult Delete(CarImage carImage)
         {
             var imagePath = _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;

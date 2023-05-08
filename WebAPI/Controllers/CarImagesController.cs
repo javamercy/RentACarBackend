@@ -42,6 +42,19 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("addmultiple")]
+        public IActionResult AddMultiple([FromForm] IFormFile[] files, [FromForm] CarImage carImage)
+        {
+            var result = _carImageService.AddMultiple(files, carImage);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpPost("update")]
         public IActionResult Update([FromForm] IFormFile file, [FromForm] CarImage carImage)
         {
